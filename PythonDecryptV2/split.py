@@ -1,8 +1,13 @@
 import collections
 import string
+import locale
+
 import filtrage
 
 import vigenere
+
+import distance_trigrammes
+
 import analyse_frequence
 
 def splitting(text_cipher, ncol):
@@ -40,24 +45,29 @@ texte_de_test = filtrage.filtrer_uniquement_lettres(texte_de_test)
 
 texte_cipher = vigenere.vigenere_cipher(texte_de_test, cle)
 
-# Cryptanalyse :
-ncol = 6  # longueur supposée de la clé de chiffrement
+print(f"Choix 1 : distance_trigrammes")
+print(f"Choix 2 : SPLIT et analyses de frequences")
+print(f"Choix 3, autres ou Quit pour quitter.")
+print()
 
-# Appel de la fonction
-colonnes = splitting(texte_cipher, ncol)
-# print(colonnes)
+choix = int(input("Choix ? "))
 
-# for i in range(ncol):
-    # print(f"\n Colonne n° = {i+1}")
-    # analyse_frequence.analyser_frequence(colonnes[i])
-    # print("-" *100)
-
-print("*"*100)
-print("*"*100)
-for i in range(ncol):
-    print(f"\n Colonne n° = {i+1}")
-    analyse_frequence.analyser_frequence(colonnes[i])
-    print("*" *100)
-
-
-
+match(choix):
+    
+    case 1 :
+        distance_trigrammes.distance_trigrammes(texte_cipher)
+        
+    case 2 :
+        print()
+        print("Longueur supposée de la clef de chiffrement ?")
+        ncol = int(input())
+        colonnes = splitting(texte_cipher, ncol)
+        print("*"*100)
+        print("*"*100)
+        for i in range(ncol):
+            print(f"\n Colonne n° = {i+1}")
+            analyse_frequence.analyser_frequence(colonnes[i])
+            print("*" *100)
+            
+    case _:
+        print("Option invalide, veuillez choisir 1 ou 2.")
